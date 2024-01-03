@@ -5,7 +5,8 @@ const AuthSchema = mongoose.Schema({
     mobile : {type : String},
     password : {type : String},
     dob : {type : String},
-    ip:{type : String}
+    address:{type:String},
+    isAuthenticated:{type : Boolean, default:false}
 });
 
 module.exports = Auth = mongoose.model("AuthUsers",AuthSchema);

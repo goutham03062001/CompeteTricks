@@ -5,10 +5,10 @@ dotenv.config({path : "./.env"});
 const port =  process.env.PORT || 5000 ;
 const Connection = require("./connection/Connection");
 const Auth = require("./routes/Auth");
-const Exam = require("./routes/Exams")
+const QuizRouter = require("./routes/QuizRouter")
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
 app.use("/Auth",Auth);
-app.use("/Exams",Exam);
+app.use("/api/Quiz/upload",QuizRouter);
 app.listen(port,()=>{console.log("Server Running on port : "+port)})
