@@ -6,7 +6,13 @@ const AuthSchema = mongoose.Schema({
     password : {type : String},
     dob : {type : String},
     address:{type:String},
-    isAuthenticated:{type : Boolean, default:false}
+    isAuthenticated:{type : Boolean, default:false},
+    quizAttempts:[
+        {
+            type : mongoose.Types.ObjectId,
+            ref:"QuizAttempt"
+        }
+    ]
 });
 
 module.exports = Auth = mongoose.model("AuthUsers",AuthSchema);
