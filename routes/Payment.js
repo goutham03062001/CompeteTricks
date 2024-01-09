@@ -15,7 +15,7 @@ router.post("/create-payment-intent",async(req,res)=>{
               },
         });
         const clientSecret = paymentIntent.client_secret;
-        return res.send({clientSecret})
+        return res.json({clientSecret:clientSecret})
     } catch (error) {
         return res.send(error)
     }
