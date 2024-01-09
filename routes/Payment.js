@@ -1,6 +1,6 @@
 const express = require("express");
 
-const router = express();
+const router = express.Router();
 const Stripe = require("stripe");
 const stripe = Stripe(process.env.SECRET_KEY,{
     apiVersion:"2023-10-16"
