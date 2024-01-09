@@ -12,4 +12,4 @@ app.use(express.urlencoded({extended:false}));
 app.use(cors());
 app.use("/Auth",Auth);
 app.use("/api/Quiz/upload",QuizRouter);
-app.listen(port,()=>{console.log("Server Running on port : "+port)})
+app.listen(port,()=>{console.log("Server Running on port : "+port)}) 

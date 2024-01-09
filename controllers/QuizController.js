@@ -1,6 +1,7 @@
 const excelJs = require("exceljs");
 const QuizModel = require("../models/QuizModel");
-
+const QuizAttempt = require("../models/QuizAttempt");
+const Auth = require("../models/Auth")
 const QuizController = {
 
     upload:async(req,res)=>{
@@ -128,6 +129,36 @@ const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate
         else{
           return res.send("No quiz found with provided id")
         }
+      } catch (error) {
+        return res.send("Error Occurred!"+error.message)
+        
+      }
+    },
+    updateQuizAttempt: async(req,res)=>{
+      try {
+        // const 
+        const {quizId,userId} = req.params;
+        const quizAttempt = new QuizAttempt({
+          quiz : quizId,
+          user : userId
+        });
+        quizAttempt.save()
+        .then(() => {
+          // Update the user's quizAttempts array using Mongoose findByIdAndUpdate
+          return Auth.findByIdAndUpdate(
+            userId,
+            { $push: { quizAttempts: quizAttempt._id } },
+            { new: true, useFindAndModify: false }
+          );
+        })
+        .then(user => {
+          console.log("Quiz attempt added to user:", user);
+          return res.send("quiz attempt added to user: "+user)
+        })
+        .catch(err => {
+          console.error(err);
+          return res.send(err.message);
+        });
       } catch (error) {
         return res.send("Error Occurred!"+error.message)
         
