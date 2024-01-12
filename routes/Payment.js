@@ -13,6 +13,7 @@ router.post("/create-payment-intent",async(req,res)=>{
              automatic_payment_methods: {
                 enabled: true,
               },
+              description: 'Software development services',
         });
         const clientSecret = paymentIntent.client_secret;
         return res.json({clientSecret : clientSecret})
