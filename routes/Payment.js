@@ -8,12 +8,13 @@ const stripe = Stripe(process.env.SECRET_KEY,{
 router.post("/create-payment-intent",async(req,res)=>{
     try {
         const paymentIntent = await stripe.paymentIntents.create({
-            amount : 1099,
-             currency:"inr",
+            amount : Math.round(10*100),
+             currency:"INR",
              automatic_payment_methods: {
                 enabled: true,
               },
-              description: 'Software development services',
+              payment_method_types:["card"],
+              metadata:{name:"Goutham"}
         });
         const clientSecret = paymentIntent.client_secret;
         return res.json({clientSecret : clientSecret})
