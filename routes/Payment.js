@@ -13,7 +13,7 @@ router.post("/create-payment-intent",async(req,res)=>{
              automatic_payment_methods: {
                 enabled: true,
               },
-              payment_method_types:["card"],
+            //   payment_method_types:["card"],
               metadata:{name:"Goutham"}
         });
         const clientSecret = paymentIntent.client_secret;
