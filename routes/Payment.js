@@ -38,7 +38,7 @@ router.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
       return;
     }
     async function addAuthorizedUser(userId){
-        
+        console.log("Authorized User Id",userId)
         const currentDate = new Date();
         const expireDate = new Date(currentDate);
         expireDate.setFullYear(currentDate.getFullYear() + 1);
