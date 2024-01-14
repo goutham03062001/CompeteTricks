@@ -36,7 +36,7 @@ router.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
       res.status(400).send(`Webhook Error: ${err.message}`);
       return;
     }
-    async function addAuthorizedUser(userId){
+    async function addAuthorizedUser(){
         console.log("Authorized User Id",userId)
         const currentDate = new Date();
         const expireDate = new Date(currentDate);
@@ -57,7 +57,7 @@ router.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
         // Then define and call a function to handle the event payment_intent.succeeded
         console.log("Payment succeed");
         //make the current user as authorized person to access the quiz and make him authorized for one year
-        addAuthorizedUser(userId);
+       return addAuthorizedUser();
       }
        if(event.type==='payment_intent.failed'){
        const paymentIntentFailed = event.data.object;
