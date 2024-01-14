@@ -21,6 +21,7 @@ router.post("/create-payment-intent",async(req,res)=>{
               metadata:{name:"Goutham"}
         });
         const clientSecret = paymentIntent.client_secret;
+        console.log("Client Secret - ",clientSecret);
         return res.json({clientSecret : clientSecret})
     } catch (error) {
         return res.send(error)
