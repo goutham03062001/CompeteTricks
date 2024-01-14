@@ -26,11 +26,10 @@ router.post("/create-payment-intent",async(req,res)=>{
         return res.send(error)
     }
 })
-router.post('/:userId/webhook', express.raw({type: 'application/json'}), (req, res) => {
+router.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
     const sig = req.headers['stripe-signature'];
-    const {userId} = req.params;
     let event;
-  
+    const userId = req.headers["userId"];
     try {
       event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
     } catch (err) {
@@ -47,31 +46,33 @@ router.post('/:userId/webhook', express.raw({type: 'application/json'}), (req, r
         return res.status(200).json({ok:true,message:"You are now authorized"});
     }
     // Handle the event
-    switch (event.type) {
-        case 'payment_intent.created':const paymentIntentCreated = event.data.object;
+    if (event.type ==='payment_intent.created') {
+        const paymentIntentCreated = event.data.object;
         console.log("Payment created");
         return res.status(200).send({ok:true,message:"Payment Intent Created!"})
+    }
       
-      
-      case 'payment_intent.succeeded':
+    if (event.type ==='payment_intent.created') {
         const paymentIntentSucceeded = event.data.object;
         // Then define and call a function to handle the event payment_intent.succeeded
         console.log("Payment succeed");
         //make the current user as authorized person to access the quiz and make him authorized for one year
-        addAuthorizedUser(userId);
-        break;
-        case 'payment_intent.failed':const paymentIntentFailed = event.data.object;
+        // addAuthorizedUser(userId);
+      }
+       if(event.type==='payment_intent.failed'){
+       const paymentIntentFailed = event.data.object;
         console.log("Payment Failed");
         return res.status(400).json({ok:false,message:"Payment Intent Failed"});
-        break;
+       }
       // ... handle other event types
-      default:
-        console.log(`Unhandled event type ${event.type}`);
+      
+       else{ console.log(`Unhandled event type ${event.type}`);
         return res.status(400).json({ok:false,message:"Error Occurred"});
 
     }
   
     // Return a 200 res to acknowledge receipt of the event
+    return res.status(200).json({ok : true})
     
   });
 module.exports = router;
