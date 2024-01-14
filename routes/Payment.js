@@ -14,10 +14,10 @@ router.post("/create-payment-intent",async(req,res)=>{
         const paymentIntent = await stripe.paymentIntents.create({
             amount : Math.round(10*100),
              currency:"INR",
-             automatic_payment_methods: {
-                enabled: true,
-              },
-            //   payment_method_types:["card"],
+            //  automatic_payment_methods: {
+            //     enabled: true,
+            //   },
+              payment_method_types:["card"],
               metadata:{name:"Goutham"}
         });
         const clientSecret = paymentIntent.client_secret;
