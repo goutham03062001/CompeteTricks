@@ -71,6 +71,6 @@ router.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
     }
   
     // Return a 200 res to acknowledge receipt of the event
-    // return res.status(200).send({ok:true})
+    return res.status(200).send({ok:true})
   });
 module.exports = router;
