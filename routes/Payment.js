@@ -39,8 +39,8 @@ router.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
     }
     async function addAuthorizedUser(userId){
         
-        const currentDate = new Date().toLocaleDateString();
-        const expireDate = new Date(currentDate).toLocaleDateString();
+        const currentDate = new Date();
+        const expireDate = new Date(currentDate);
         expireDate.setFullYear(currentDate.getFullYear() + 1);
         const newAuthorizedUser = new AuthorizedUsers({userId : userId,createdAt : currentDate,validUpto:expireDate});
         await newAuthorizedUser.save();
