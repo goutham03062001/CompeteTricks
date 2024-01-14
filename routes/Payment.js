@@ -52,7 +52,7 @@ router.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
         return res.status(200).send({ok:true,message:"Payment Intent Created!"})
     }
       
-    if (event.type ==='payment_intent.created') {
+    if (event.type ==='payment_intent.succeeded') {
         const paymentIntentSucceeded = event.data.object;
         // Then define and call a function to handle the event payment_intent.succeeded
         console.log("Payment succeed");
