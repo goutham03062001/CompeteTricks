@@ -26,9 +26,9 @@ router.post("/create-payment-intent",async(req,res)=>{
         return res.send(error)
     }
 })
-router.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
+router.post('/:userId/webhook', express.raw({type: 'application/json'}), (req, res) => {
     const sig = req.headers['stripe-signature'];
-    const {userId} = req.body;
+    const {userId} = req.params;
     let event;
   
     try {
