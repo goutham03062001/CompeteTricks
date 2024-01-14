@@ -44,15 +44,15 @@ router.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
         expireDate.setFullYear(currentDate.getFullYear() + 1);
         const newAuthorizedUser = new AuthorizedUsers({userId : userId,createdAt : currentDate,validUpto:expireDate});
         await newAuthorizedUser.save();
-        return res.json({message:"You are now authorized"});
+        return res.status(200).json({ok:true,message:"You are now authorized"});
     }
     // Handle the event
     switch (event.type) {
         case 'payment_intent.created':const paymentIntentCreated = event.data.object;
         console.log("Payment created");
-        return res.send("Payment Intent Created");
+        return res.status(200).send({ok:true,message:"Payment Intent Created!"})
       
-        break;
+      
       case 'payment_intent.succeeded':
         const paymentIntentSucceeded = event.data.object;
         // Then define and call a function to handle the event payment_intent.succeeded
@@ -62,15 +62,16 @@ router.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
         break;
         case 'payment_intent.failed':const paymentIntentFailed = event.data.object;
         console.log("Payment Failed");
-        return res.send("Error Occurred - "+paymentIntentFailed)
+        return res.status(400).json({ok:false,message:"Payment Intent Failed"});
         break;
       // ... handle other event types
       default:
         console.log(`Unhandled event type ${event.type}`);
-        return res.send("Error Occurred");
+        return res.status(400).json({ok:false,message:"Error Occurred"});
+
     }
   
     // Return a 200 res to acknowledge receipt of the event
-    return res.status(200).send({ok:true})
+    
   });
 module.exports = router;
