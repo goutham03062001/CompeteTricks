@@ -138,9 +138,11 @@ const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate
       try {
         // const 
         const {quizId,userId} = req.params;
+        const {score} = req.body;
         const quizAttempt = new QuizAttempt({
           quiz : quizId,
-          user : userId
+          user : userId,
+          score : score
         });
         quizAttempt.save()
         .then(() => {
