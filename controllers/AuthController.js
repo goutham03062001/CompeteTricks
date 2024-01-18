@@ -91,6 +91,17 @@ const AuthController = {
             return res.send("Error Occurred !"+error.message)
             
         }
+    },
+
+    getAccountDetails : async(req,res)=>{
+        try {
+            const {id} = req.params;
+            const currentPerson = await AuthModel.findById({_id : id});
+            return res.send(currentPerson);
+        } catch (error) {
+            return res.send("Error Occurred !"+error.message)
+            
+        }
     }
 }
 
