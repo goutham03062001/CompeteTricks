@@ -144,26 +144,20 @@ const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate
           user : userId,
           score : score
         });
-        quizAttempt.save()
-        .then(() => {
-          // Update the user's quizAttempts array using Mongoose findByIdAndUpdate
-          return Auth.findByIdAndUpdate(
-            userId,
-            { $push: { quizAttempts: quizAttempt._id } },
-            { new: true, useFindAndModify: false }
-          );
-        })
-        .then(user => {
-          console.log("Quiz attempt added to user:", user);
-          return res.send("quiz attempt added to user: "+user)
-        })
-        .catch(err => {
-          console.error(err);
-          return res.send(err.message);
-        });
+        await quizAttempt.save();
+
+        // Update the user's quizAttempts array using Mongoose findByIdAndUpdate
+        const updatedUser = await Auth.findByIdAndUpdate(
+          userId,
+          { $push: { quizAttempts: { _id: quizAttempt._id, score: score } } },
+          { new: true, useFindAndModify: false }
+        );
+    
+        console.log("Quiz attempt added to user:", updatedUser);
+        return res.send("Quiz attempt added to user: " + updatedUser);
       } catch (error) {
-        return res.send("Error Occurred!"+error.message)
-        
+        console.error(error);
+        return res.status(500).send("Error occurred: " + error.message);
       }
     }
 }

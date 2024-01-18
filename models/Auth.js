@@ -9,9 +9,9 @@ const AuthSchema = mongoose.Schema({
     isAuthenticated:{type : Boolean, default:false},
     quizAttempts:[
         {
-            type : mongoose.Types.ObjectId,
-            ref:"QuizAttempt"
-        }
+            quiz: { type: mongoose.Types.ObjectId, ref: "QuizAttempt" },
+            score: { type: String },
+          },
     ]
 });
 
