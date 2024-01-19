@@ -235,22 +235,40 @@ console.log("Year",Year);
         // const 
         const {quizId,userId} = req.params;
         const {score} = req.body;
-        const quizAttempt = new QuizAttempt({
-          quiz : quizId,
-          user : userId,
-          score : score
-        });
-        await quizAttempt.save();
+        // const quizAttempt = new QuizAttempt({
+        //   quiz : quizId,
+        //   user : userId,
+        //   score : score
+        // });
+        // await quizAttempt.save();
 
-        // Update the user's quizAttempts array using Mongoose findByIdAndUpdate
-        const updatedUser = await Auth.findByIdAndUpdate(
-          userId,
-          { $push: { quizAttempts: { _id: quizAttempt._id, score: score } } },
-          { new: true, useFindAndModify: false }
-        );
+        // // Update the user's quizAttempts array using Mongoose findByIdAndUpdate
+        // const updatedUser = await Auth.findByIdAndUpdate(
+        //   userId,
+        //   { $push: { quizAttempts: { _id: quizAttempt._id, score: score } } },
+        //   { new: true, useFindAndModify: false }
+        // );
     
-        console.log("Quiz attempt added to user:", updatedUser);
-        return res.send("Quiz attempt added to user: " + updatedUser);
+        // console.log("Quiz attempt added to user:", updatedUser);
+        // return res.send("Quiz attempt added to user: " + updatedUser);
+        const currentUser = await Auth.findById({_id : userId});
+        // if(currentUser.quizAttempts.)
+        const isReattempted = currentUser.quizAttempts.some(attempt=>attempt.quiz.quizId === quizId);
+        console.log("isReattempted - ",isReattempted);
+        if(isReattempted){
+          const quizObj = currentUser.quizAttempts.find(attempt=>attempt.quiz.quizId === quizId);
+          quizObj.quiz.scoresArr.push(score);
+          quizObj.quiz.count = quizObj.quiz.scoresArr.length;
+          // return res.send(quizObj)
+        }else{
+          let scoresArr = [];
+          scoresArr.push(score);
+          const quiz = {quizId:quizId,userId : userId,count:1,scoresArr:scoresArr};
+          currentUser.quizAttempts.push({quiz:quiz});
+        }
+        await currentUser.save();
+        return res.send(currentUser);
+        // return res.send(currentUser)
       } catch (error) {
         console.error(error);
         return res.status(500).send("Error occurred: " + error.message);
