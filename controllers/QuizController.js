@@ -1,5 +1,6 @@
 const excelJs = require("exceljs");
 const QuizModel = require("../models/QuizModel");
+const ModelPaper = require("../models/ModelPapers");
 const QuizAttempt = require("../models/QuizAttempt");
 const Auth = require("../models/Auth")
 const QuizController = {
@@ -13,7 +14,7 @@ const QuizController = {
             const worksheet = await workbook.xlsx.load(fileBuffer);
         
             const rows = worksheet.getWorksheet(1).getSheetValues();
-            const studentData = [];
+            const ModelPapers = [];
             console.log("rows length "+rows.length);
             // Assuming the first row in the Excel sheet contains headers
             const headers = rows[1];
@@ -25,7 +26,7 @@ const QuizController = {
             //   for (let j = 0; j < headers.length; j++) {
             //     student[headers[j]] = rows[i][j];
             //   }
-            //   studentData.push(student);
+            //   ModelPapers.push(student);
             // }
 
             for (let i = 1; i < rows.length-1; i++) {
@@ -37,17 +38,17 @@ const QuizController = {
                 for (let j = 0; j < headers.length; j++) {
                   student[headers[j]] = currentRow[j];
                 }
-                studentData.push(student);
+                ModelPapers.push(student);
               } else {
                 console.log('Encountered an undefined row at index:', i);
               }
             }
         
             // Insert student data into the MongoDB collection
-            // await Student.insertMany(studentData);
-            console.log("Quiz Data",studentData); 
+            // await Student.insertMany(ModelPapers);
+            console.log("Quiz Data",ModelPapers); 
             
-           studentData.splice(1,studentData.length).map((everyStudent)=>{
+           ModelPapers.splice(1,ModelPapers.length).map((everyStudent)=>{
           
               uploadStudentDetailsFunction(everyStudent)
                 
@@ -97,6 +98,101 @@ const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate
             console.error(error);
             res.status(500).json({ error: 'An error occurred while uploading data' });
           }
+    },
+
+    uploadModelPapers : async(req,res)=>{
+      try {
+        const QuestionsArr = [];
+        const fileBuffer = req.file.buffer;
+        console.log(fileBuffer)
+        const workbook = new excelJs.Workbook();
+        const worksheet = await workbook.xlsx.load(fileBuffer);
+    
+        const rows = worksheet.getWorksheet(1).getSheetValues();
+        const ModelPapers = [];
+        console.log("rows length "+rows.length);
+        // Assuming the first row in the Excel sheet contains headers
+        const headers = rows[1];
+        console.log("headers - ",headers)
+        // console.log(rows);
+        // for (let i = 1; i < rows.length; i++) {
+        //   console.log('Row:', rows[i]);
+        //   const student = {};
+        //   for (let j = 0; j < headers.length; j++) {
+        //     student[headers[j]] = rows[i][j];
+        //   }
+        //   ModelPapers.push(student);
+        // }
+
+        for (let i = 1; i < rows.length-1; i++) {
+          const currentRow = rows[i];
+          
+          // Check if the current row is defined
+          if (currentRow) {
+            const student = {};
+            for (let j = 0; j < headers.length; j++) {
+              student[headers[j]] = currentRow[j];
+            }
+            ModelPapers.push(student);
+          } else {
+            console.log('Encountered an undefined row at index:', i);
+          }
+        }
+    
+        // Insert student data into the MongoDB collection
+        // await Student.insertMany(ModelPapers);
+        console.log("Quiz Data",ModelPapers); 
+        
+       ModelPapers.splice(1,ModelPapers.length).map((everyStudent)=>{
+      
+          uploadStudentDetailsFunction1(everyStudent)
+            
+       });
+    //    return res.send("Data Uploaded Successfully")
+       async function uploadStudentDetailsFunction1(quizFormData){
+        const {
+           QuestionName,
+           Option1,
+           Option2,
+           Option3,
+           Option4,
+           Year,
+           Answer
+          } = quizFormData;
+        // uploadStudentDetailsFunction
+        const inputDate = new Date("Tue Mar 06 2001 05:30:00 GMT+0530 (India Standard Time)");
+
+const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate);
+        
+console.log("Year",Year);
+        const Options = {
+              option1:Option1,
+              option2:Option2,
+              option3:Option3,
+              option4:Option4
+            };
+            const Questions = 
+                {
+                    questionName:QuestionName,
+                    options:Options,
+                    // year:Year,
+                    answer:Answer
+                }
+              ;
+              QuestionsArr.push(Questions);
+              
+            
+       }
+       console.log("new Model Paper",QuestionsArr);
+       const newQuiz = new ModelPaper({Questions:QuestionsArr});
+              await newQuiz.save();
+      
+            return res.send("Model Paper Uploaded Successfully!")
+      } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ error: 'An error occurred while uploading Model Paper' });
+      }
     },
     getAllQuiz: async(req,res)=>{
       const quizData = await QuizModel.find();
@@ -158,6 +254,36 @@ const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate
       } catch (error) {
         console.error(error);
         return res.status(500).send("Error occurred: " + error.message);
+      }
+    },
+    getAllModelPapers: async(req,res)=>{
+      try {
+        const modelPapers = await ModelPaper.find();
+        console.log("modelPapers",modelPapers)
+        return res.send(modelPapers);
+      } catch (error) {
+        return res.send("Error Occurred - ",error.message)
+      }
+    },
+    getModelPaperById : async(req,res)=>{
+      try {
+        const modelPaper = await ModelPaper.findById({_id : req.params.ModelPaperId});
+        if(modelPaper){
+          return res.send(modelPaper)
+        }else{
+          return res.send("No model paper found with provided id")
+        }
+      } catch (error) {
+        return res.send("Error Occurred - ",error.message)
+      }
+    },
+    deleteModelPaperById : async(req,res)=>{
+      try {
+        const modelPaper = await ModelPaper.findByIdAndDelete({_id : req.params.ModelPaperId});
+        return res.send("model paper deleted")
+      } catch (error) {
+        return res.send("Error Occurred - ",error.message)
+        
       }
     }
 }
