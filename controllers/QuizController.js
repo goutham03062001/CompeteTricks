@@ -279,7 +279,7 @@ console.log("Year",Year);
     },
     getAllModelPapers: async(req,res)=>{
       try {
-        const modelPapers = await ModelPaper.find();
+        const modelPapers = await ModelPaper.find({ModelPaperType:req.params.ModelPaperType});
         console.log("modelPapers",modelPapers)
         return res.send(modelPapers);
       } catch (error) {
