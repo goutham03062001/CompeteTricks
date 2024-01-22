@@ -277,9 +277,18 @@ console.log("Year",Year);
         return res.status(500).send("Error occurred: " + error.message);
       }
     },
-    getAllModelPapers: async(req,res)=>{
+    getAllModelPapersByType: async(req,res)=>{
       try {
         const modelPapers = await ModelPaper.find({ModelPaperType:req.params.ModelPaperType});
+        console.log("modelPapers",modelPapers)
+        return res.send(modelPapers);
+      } catch (error) {
+        return res.send("Error Occurred - ",error.message)
+      }
+    },
+    getAllModelPapers: async(req,res)=>{
+      try {
+        const modelPapers = await ModelPaper.find();
         console.log("modelPapers",modelPapers)
         return res.send(modelPapers);
       } catch (error) {
