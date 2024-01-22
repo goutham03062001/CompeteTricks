@@ -102,6 +102,7 @@ const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate
 
     uploadModelPapers : async(req,res)=>{
       try {
+       console.log("Model Paper Type - ",req.params.ModelPaperType)
         const QuestionsArr = [];
         const fileBuffer = req.file.buffer;
         console.log(fileBuffer)
@@ -185,7 +186,9 @@ console.log("Year",Year);
             
        }
        console.log("new Model Paper",QuestionsArr);
-       const newQuiz = new ModelPaper({Questions:QuestionsArr});
+      //  const ModelPaperType = req.body;
+      //  console.log("Your req body - ",req.body)
+       const newQuiz = new ModelPaper({Questions:QuestionsArr,ModelPaperType:req.params.ModelPaperType});
               await newQuiz.save();
       
             return res.send("Model Paper Uploaded Successfully!")

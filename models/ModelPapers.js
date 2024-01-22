@@ -14,7 +14,10 @@ const ModelPaperSchema = mongoose.Schema({
             // year:{type:String}
             
         }
-    ]
+    ],
+    ModelPaperType : {
+        type : String
+    }
 });
 
 module.exports = ModelPaper = mongoose.model("ModelPaper",ModelPaperSchema)
