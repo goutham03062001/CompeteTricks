@@ -9,6 +9,7 @@ router.post("/modelPaper/uploadModelPaper/:ModelPaperType",upload.single("file")
 router.put("/updateAttempts/user/:userId/quiz/:quizId",QuizController.updateQuizAttempt);
 router.get("/getQuizDetails",QuizController.getAllQuiz);
 router.get("/modelPaper/getAllModelPapers/:ModelPaperType",QuizController.getAllModelPapers);
+router.get("/modelPaper/getAllModelPapers",QuizController.getAllModelPapers);
 router.get("/modelPaper/getAllModelPapers/:ModelPaperId",QuizController.getModelPaperById);
 router.get("/getQuizDetails/:quizId",QuizController.getQuizDetailsById);
 router.delete("/removeQuiz/:quizId",QuizController.removeQuizById);
