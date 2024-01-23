@@ -16,6 +16,16 @@ const AuthSchema = mongoose.Schema({
                 count : {type : String}
             }
         },
+    ],
+    modelPaperAttempts:[
+        {
+            modelPaper:{
+                modelPaperId : {type : String},
+                userId:{type : String},
+                scoresArr : [],
+                count : {type : String}
+            }
+        },
     ]
 });
 
