@@ -4,8 +4,12 @@ const ModelPaperSchema = mongoose.Schema({
     Questions:[
         {
             questionName : {
-                font: { type: String }, // Adjust the type based on your needs
-                text: { type: String },
+                richText: [
+                    {
+                         // Adjust the type based on your needs
+                        text: { type: String },
+                    },
+                ],
             },
             options:{
                     option1:{type:String},
