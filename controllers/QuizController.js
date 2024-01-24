@@ -173,9 +173,10 @@ console.log("Year",Year);
               option3:Option3,
               option4:Option4
             };
+            
             const Questions = 
                 {
-                    questionName:QuestionName,
+                    questionName:{text : QuestionName,font:''},
                     options:Options,
                     // year:Year,
                     answer:Answer

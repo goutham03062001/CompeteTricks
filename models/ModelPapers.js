@@ -3,7 +3,10 @@ const ModelPaperSchema = mongoose.Schema({
 
     Questions:[
         {
-            questionName : {type : String},
+            questionName : {
+                font: { type: String }, // Adjust the type based on your needs
+                text: { type: String },
+            },
             options:{
                     option1:{type:String},
                     option2:{type:String},
