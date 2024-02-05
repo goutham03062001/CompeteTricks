@@ -303,6 +303,31 @@ const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate
         return res.send("Error Occurred - ",error.message)
         
       }
+    },
+    updateModelPaperAttempt: async(req,res)=>{
+      try {
+        const {ModelPaperId,userId} = req.params;
+        const {score} = req.body;
+        const currentUser = await Auth.findById({_id : userId});
+        if(currentUser){
+          const isReattempting = currentUser.modelPaperAttempts.some(attempt=>attempt.modelPaper.modelPaperId === ModelPaperId)
+          if(isReattempting){
+            const currentModelPaperObj = currentUser.modelPaperAttempts.find(attempt=>attempt.modelPaper.modelPaperId === ModelPaperId);
+            currentModelPaperObj.modelPaper.scoresArr.push(score);
+            currentModelPaperObj.modelPaper.count = currentModelPaperObj.modelPaper.scoresArr.length;
+          }else{
+            let scoresArr = [];
+            scoresArr.push(score);
+            const modelPaper = {modelPaperId:ModelPaperId,userId : userId,count:1,scoresArr:scoresArr};
+            currentUser.modelPaperAttempts.push({modelPaper:modelPaper});
+          }
+          await currentUser.save();
+          return res.send(currentUser)
+        }
+      } catch (error) {
+        console.error(error);
+        return res.status(500).send("Error occurred: " + error.message);
+      }
     }
 }
 

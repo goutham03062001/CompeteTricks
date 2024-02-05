@@ -11,6 +11,7 @@ router.get("/getQuizDetails",QuizController.getAllQuiz);
 router.get("/modelPaper/getAllModelPapers/:ModelPaperType",QuizController.getAllModelPapersByType);
 router.get("/modelPaper/getAllModelPapers",QuizController.getAllModelPapers);
 router.get("/modelPaper/getAllModelPapers/id/:ModelPaperId",QuizController.getModelPaperById);
+router.put("/modelPaper/updateModelPaper/id/:ModelPaperId/user/:userId",QuizController.updateModelPaperAttempt);
 router.get("/getQuizDetails/:quizId",QuizController.getQuizDetailsById);
 router.delete("/removeQuiz/:quizId",QuizController.removeQuizById);
 router.delete("/modelPaper/removeModelPaper/:ModelPaperId",QuizController.deleteModelPaperById);
