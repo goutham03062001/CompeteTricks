@@ -292,7 +292,7 @@ const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate
           return res.send("No model paper found with provided id")
         }
       } catch (error) {
-        return res.send("Error Occurred - ",error.message)
+        return res.send("Error Occurred - "+error.message)
       }
     },
     deleteModelPaperById : async(req,res)=>{
