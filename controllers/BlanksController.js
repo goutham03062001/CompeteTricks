@@ -75,7 +75,15 @@ const BlanksController = {
             return res.send("Error Occurred !"+error.message)
         }
     },
-
+    getAllBlanksByType : async(req,res)=>{
+        try {
+            const allBlanksByType = await Blanks.find({BlankType: req.params.BlankPaperType});
+            return res.send(allBlanksByType)
+        } catch (error) {
+            return res.send("Error Occurred !"+error.message)
+            
+        }
+    },
     getBlankById : async(req,res)=>{
         try {
             const isBlankExisted = await Blanks.findById({_id : req.params.BlankPaperId});

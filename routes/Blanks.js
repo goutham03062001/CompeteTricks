@@ -6,6 +6,7 @@ const upload = multer({ storage });
 const BlanksController = require("../controllers/BlanksController")
 router.post("/uploadNew/:BlankPaperType",upload.single("file"),BlanksController.uploadNewBlankPaper);
 router.get("/allBlanks",BlanksController.getAllBlanks);
+router.get("/allBlanks/:BlankPaperType",BlanksController.getAllBlanksByType)
 router.get("/getBlankById/:BlankPaperId",BlanksController.getBlankById);
 router.delete("/deleteBlankPaper/:BlankPaperId",BlanksController.removeBlankById)
 module.exports = router;
