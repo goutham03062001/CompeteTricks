@@ -102,6 +102,17 @@ const AuthController = {
             return res.send("Error Occurred !"+error.message)
             
         }
+    },
+    getCurrentPersonDetails : async(userId)=>{
+        try {
+           
+            const currentPerson = await AuthModel.findById({_id : userId});
+            return currentPerson;
+        } catch (error) {
+            const responseString = "No Account Found!";
+            return responseString;
+            
+        }
     }
 }
 

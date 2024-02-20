@@ -10,7 +10,8 @@ const Connection = require("./connection/Connection");
 const Auth = require("./routes/Auth");
 const QuizRouter = require("./routes/QuizRouter");
 const PaymentRouter = require("./routes/Payment");
-const BlanksRouter = require("./routes/Blanks")
+const BlanksRouter = require("./routes/Blanks");
+const RazorpayRouter = require("./routes/Razorpay")
 app.use("/api/payment/webhook",express.raw({type:"*/*"}))
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
@@ -19,5 +20,5 @@ app.use("/Auth",Auth);
 app.use("/api/Quiz/upload",QuizRouter);
 app.use("/api/payment",PaymentRouter);
 app.use("/api/blanks",BlanksRouter)
-  
+app.use("/api/razorpay",RazorpayRouter);
 app.listen(port,()=>{console.log("Server Running on port : "+port)}) 
