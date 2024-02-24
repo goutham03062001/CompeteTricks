@@ -1,9 +1,17 @@
 const express = require("express");
 const AuthModel = require("../models/Auth");
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
+const crypto = require('crypto');
+
+
+
+// Example usage
+
+
+
 const AuthController = {
     Signup:async (req,res)=>{
-        const {name,email,password,mobile,address} = req.body;
+        const {name,email,password,mobile,address,deviceInfo} = req.body;
         try {
             // return res.send("Hello From Signup !")
             const isExisted = await AuthModel.findOne({mobile});
@@ -12,7 +20,7 @@ const AuthController = {
             }else{
                 const salt = await bcrypt.genSalt(10);
                 const hashedPassword = await  bcrypt.hash(password,salt);
-                const newUser = new AuthModel({name, email, password:hashedPassword, mobile,address});
+                const newUser = new AuthModel({name, email, password:hashedPassword, mobile,address, deviceInfo:deviceInfo});
                 
                 await newUser.save();
                 return res.json(newUser);
@@ -24,7 +32,7 @@ const AuthController = {
     },
 
     Login:async (req,res)=>{
-        const {mobile,password} = req.body;
+        const {mobile,password,deviceInfo} = req.body;
         try {
             // return res.send("Hello From Login !")
             const isExisted = await AuthModel.findOne({mobile});
@@ -34,7 +42,12 @@ const AuthController = {
                         return res.send("Error Occurred!"+err);
                     }
                     if(success){
-                        return res.json(isExisted)
+                        if(isExisted.deviceInfo.modelName === deviceInfo.modelName  && isExisted.deviceInfo.brand === deviceInfo.brand && isExisted.deviceInfo.deviceType === deviceInfo.deviceType){
+                               return res.json(isExisted)
+                        }else{
+                            return res.send("Permission Denied");
+                        }
+            // return res.json(isExisted)
                     }else{
                         return res.send("Either mobile number or password is wrong!");
                     }

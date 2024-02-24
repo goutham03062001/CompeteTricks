@@ -7,6 +7,12 @@ const AuthSchema = mongoose.Schema({
     dob : {type : String},
     address:{type:String},
     isAuthenticated:{type : Boolean, default:false},
+    deviceInfo:{
+        brand: {type : String},
+        modelName : {type : String},
+        deviceType:{type : String},
+    },
+    uniqueToken:{ type : String},
     quizAttempts:[
         {
             quiz:{
