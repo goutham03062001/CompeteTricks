@@ -32,6 +32,16 @@ const AuthSchema = mongoose.Schema({
                 count : {type : String}
             }
         },
+    ],
+    EnglishMethodAttempts:[ 
+        {
+            quiz:{
+                quizId : {type : String},
+                userId:{type : String},
+                scoresArr : [],
+                count : {type : String}
+            }
+        }
     ]
 });
 
