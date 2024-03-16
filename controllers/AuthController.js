@@ -2,7 +2,7 @@ const express = require("express");
 const AuthModel = require("../models/Auth");
 const bcrypt = require("bcryptjs");
 const crypto = require('crypto');
-
+const nodemailer = require('nodemailer');
 
 
 // Example usage
@@ -62,22 +62,76 @@ const AuthController = {
     },
     ForgotPassword: async (req,res)=>{
         try {
-            const {mobile,newPassword} = req.body;
-            const isExisted = await AuthModel.findOne({mobile});
-            if(isExisted){
-                const newHashedPassword =  bcrypt.hashSync(newPassword,10);
-                isExisted.password = newHashedPassword;
-                await isExisted.save();
-                return res.json({message:"Password Updated",isExisted});
-            }else{
-                return res.send("Something went wrong! we couldn't find your account");
+            function generateOTP() {
+                return Math.floor(100000 + Math.random() * 900000);
             }
+           const otp = generateOTP();
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                  user: 'gouthamp0306@gmail.com',  // Your Gmail email address
+                  pass: process.env.GOOGLE_MAIL_PASSWORD,  // Your Gmail password or an application-specific password
+                },
+              });
+              
+              // Email options with HTML content
+              const mailOptions = {
+                from: 'gouthamp0306@gmail.com',  // Sender address
+                to: req.body.userEmail,   // Receiver address
+                subject: 'Verification Email',  // Subject line
+                html: `
+                  <!DOCTYPE html>
+                  <html lang="en">
+                  <head>
+                    <!-- Include your styles here -->
+                  </head>
+                  <body>
+                    <div class="container">
+                      <div class="header">
+                        <img src="your_logo.png" alt="Your Logo">
+                        <h2>Verification OTP Email</h2>
+                      </div>
+              
+                      <div class="content">
+                        <p>Your OTP is ${otp}</p>
+              
+                      </div>
+              
+                      <div class="footer">
+                        <p>This is an automated message. Please do not reply to this email.</p>
+                        <p>&copy; 2024 EnglishWallah</p>
+                      </div>
+                    </div>
+                  </body>
+                  </html>
+                `,
+              };
+              
+              // Send email
+              transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                  console.error('Error:', error);
+                  return res.send("Error Occurred")
+                } else {
+                  console.log('Email sent:', info.response);
+                  return res.json({message : "OTP Sent Successfully",OTP:otp})
+                }
+              });
+            
         } catch (error) {
             return res.send("Error Occurred !"+error.message)
             
         }
     },
 
+    CrossCheckPassword: async(req,res)=>{
+        try {
+            
+        } catch (error) {
+            return res.send("Error Occurred !"+error.message)
+            
+        }
+    },
     AuthenticateMyAccount : async(req,res)=>{
 
         try {
