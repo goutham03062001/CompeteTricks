@@ -127,7 +127,7 @@ const AuthController = {
     ResetPassword: async(req,res)=>{
         try {
             const{currentPassword,currentEmail} = req.body;
-            const isExisted = await AuthModel.findOne({currentEmail}); 
+            const isExisted = await AuthModel.findOne({email : currentEmail}); 
             if(isExisted){
                 //hash password
                 const salt = await bcrypt.genSalt(10);
