@@ -124,9 +124,22 @@ const AuthController = {
         }
     },
 
-    CrossCheckPassword: async(req,res)=>{
+    ResetPassword: async(req,res)=>{
         try {
-            
+            const{currentPassword,currentEmail} = req.body;
+            const isExisted = await AuthModel.findOne({currentEmail}); 
+            if(isExisted){
+                //hash password
+                const salt = await bcrypt.genSalt(10);
+                const hashedPassword = await  bcrypt.hash(currentPassword,salt); 
+                const updatedUser = await AuthModel.findOneAndUpdate(
+                    { email : currentEmail }, // Filter criteria: find user by Email
+                    { $set: { password: hashedPassword } }, // Update the password field
+                    { new: true } // Return the updated document
+                );
+                await updatedUser.save();
+                return res.send("Password has updated");
+            }
         } catch (error) {
             return res.send("Error Occurred !"+error.message)
             
