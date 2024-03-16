@@ -35,7 +35,7 @@ const AuthController = {
         const {mobile,password,deviceInfo} = req.body;
         try {
             // return res.send("Hello From Login !")
-            const isExisted = await AuthModel.findOne({mobile});
+            const isExisted = await AuthModel.findOne({mobile:mobile});
             if(isExisted){
                 bcrypt.compare(password,isExisted.password,(err,success)=>{
                     if(err){
