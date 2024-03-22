@@ -27,16 +27,25 @@ const generateUniqueToken = (userId) => {
 };
 router.post("/makeNewPayment",async(req,res)=>{
     try {
-        instance.orders.create({
-            "amount": 50000,
-            "currency": "INR",
-            "receipt": "receipt#1",
-            "partial_payment": false,
-            "notes": {
-              "key1": "value3",
-              "key2": "value2"
-            }
-          }).then((data)=>{return res.send(data)}).catch((err)=>{return res.send(err)})
+       try {
+        const response = instance.orders.create({
+          "amount": 1000,
+          "currency": "INR",
+          "receipt": req.body.receiptName,
+          "partial_payment": false,
+          "notes": {
+            "key1": "value3",
+            "key2": "value2"
+          }
+        });
+        if(response){
+          console.log("Response Status - ",response);
+          return res.send(response)
+        }
+       } catch (error) {
+        return res.send("Error Occurred while creating order")
+       }
+
         
     } catch (error) {
         return res.send("Error Occurred!"+error.message)
