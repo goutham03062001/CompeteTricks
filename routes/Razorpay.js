@@ -67,11 +67,12 @@ router.get("/personDetails",async(req,res)=>{
 })
 router.put("/getData",async(req,res)=>{
   try {
-    const {paymentId,userEmail,userMobile,userName,userId,successData} = req.body;
+    const {paymentId,userEmail,userMobile,userName,userId,successData,orderId} = req.body;
     // const isExistedUser = AuthController.getCurrentPersonDetails(userId);
     const isExistedUser = await Auth.findById({_id : userId});
     console.log("Triggered getData route")
     console.log("Current User ID- ",userId);
+    console.log("Current Order ID 0 ",orderId);
     if(isExistedUser._id){
       console.log("user id - ",userId);
       console.log("Payment Id - ",paymentId);
