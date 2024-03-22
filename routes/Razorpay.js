@@ -52,11 +52,24 @@ router.post("/makeNewPayment",async(req,res)=>{
         return res.send("Error Occurred!"+error.message)
     }
 })
+router.get("/personDetails",async(req,res)=>{
+  try {
+    const isUser = await Auth.findById({_id : req.body.id})
+    if(isUser){
+      return res.send(isUser);
 
+    }else{
+      return res.send("No User Found")
+    }
+  } catch (error) {
+    return res.send("Error Ocurred",error.message)
+  }
+})
 router.put("/getData",async(req,res)=>{
   try {
     const {paymentId,userEmail,userMobile,userName,userId,successData} = req.body;
-    const isExistedUser = AuthController.getCurrentPersonDetails(userId);
+    // const isExistedUser = AuthController.getCurrentPersonDetails(userId);
+    const isExistedUser = await Auth.findById({_id : userId});
     console.log("Triggered getData route")
     console.log("Current User ID- ",userId);
     if(isExistedUser._id){
@@ -92,6 +105,9 @@ router.put("/getData",async(req,res)=>{
       }else{
         return res.send("Payment Unsuccessful")
       }
+    }else{
+      console.log("No User Found with current Id");
+      return res.send("No user found with  current id")
     }
   
   } catch (error) {
