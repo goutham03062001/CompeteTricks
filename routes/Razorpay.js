@@ -28,8 +28,8 @@ const generateUniqueToken = (userId) => {
 router.post("/makeNewPayment",async(req,res)=>{
     try {
        try {
-        const response = instance.orders.create({
-          "amount": 1000,
+        const response = await instance.orders.create({
+          "amount": 100,
           "currency": "INR",
           "receipt": req.body.receiptName,
           "partial_payment": false,
@@ -40,6 +40,7 @@ router.post("/makeNewPayment",async(req,res)=>{
         });
         if(response){
           console.log("Response Status - ",response);
+          console.log("Response - ",response.id);
           return res.send(response)
         }
        } catch (error) {
