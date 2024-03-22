@@ -75,7 +75,7 @@ router.put("/getData",async(req,res)=>{
     if(isExistedUser._id){
       console.log("user id - ",userId);
       console.log("Payment Id - ",paymentId);
-      console.log("successData - ");
+      console.log("successData - ",successData);
       console.log("order Id",successData.razorpay_order_id);
       console.log("payment Id",successData.razorpay_payment_id);
       const payload = successData.razorpay_order_id + '|' + successData.razorpay_payment_id;
