@@ -29,7 +29,7 @@ router.post("/makeNewPayment",async(req,res)=>{
     try {
        try {
         const response = await instance.orders.create({
-          "amount": 100,
+          "amount": 10,
           "currency": "INR",
           "receipt": req.body.receiptName,
           "partial_payment": false,
@@ -57,6 +57,8 @@ router.put("/getData",async(req,res)=>{
   try {
     const {paymentId,userEmail,userMobile,userName,userId,successData} = req.body;
     const isExistedUser = AuthController.getCurrentPersonDetails(userId);
+    console.log("Triggered getData route")
+    console.log("Current User ID- ",userId);
     if(isExistedUser._id){
       console.log("user id - ",userId);
       console.log("Payment Id - ",paymentId);
