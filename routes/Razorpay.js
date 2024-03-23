@@ -27,8 +27,9 @@ const generateUniqueToken = (userId) => {
 };
 router.post("/makeNewPayment",async(req,res)=>{
     try {
+      const thresholdAmount = 1000
       const response = await instance.orders.create({
-        "amount": 10,
+        "amount": thresholdAmount*100,
         "currency": "INR",
         "receipt": req.body.receiptName,
         "partial_payment": false,
@@ -39,12 +40,13 @@ router.post("/makeNewPayment",async(req,res)=>{
       });
       if(response){
         console.log("Response - ",response.data);
-        return res.send(response.data)
+        return res.send(response)
       }else{
         return res.send("No response!");
       }
         
     } catch (error) {
+      console.log("Error Occurred",error)
         return res.send("Error Occurred!"+error.message)
     }
 })
