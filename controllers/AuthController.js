@@ -197,7 +197,7 @@ const AuthController = {
     },
     getSubscriptionDetails : async(req,res)=>{
         try {
-            const isSubscribed = await Authorized.findOne({userId:req.params.userId});
+            const isSubscribed = await AuthModel.findById({_id:req.params.userId});
             if(isSubscribed){
                 console.log("You are subscribed person");
                 return res.send(isSubscribed)
