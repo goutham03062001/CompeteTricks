@@ -29,7 +29,7 @@ router.post("/makeNewPayment",async(req,res)=>{
     try {
       const thresholdAmount = 10
       const response = await instance.orders.create({
-        "amount": thresholdAmount*100,
+        "amount": 1000,
         "currency": "INR",
         "receipt": req.body.receiptName,
         "partial_payment": false,
