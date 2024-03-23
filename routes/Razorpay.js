@@ -27,7 +27,7 @@ const generateUniqueToken = (userId) => {
 };
 router.post("/makeNewPayment",async(req,res)=>{
     try {
-      const thresholdAmount = 1000
+      const thresholdAmount = 10
       const response = await instance.orders.create({
         "amount": thresholdAmount*100,
         "currency": "INR",
