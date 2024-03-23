@@ -28,7 +28,7 @@ const generateUniqueToken = (userId) => {
 router.post("/makeNewPayment",async(req,res)=>{
     try {
       const thresholdAmount = 10
-      const response = await instance.orders.create({
+      instance.orders.create({
         "amount": 1000,
         "currency": "INR",
         "receipt": req.body.receiptName,
@@ -37,13 +37,11 @@ router.post("/makeNewPayment",async(req,res)=>{
           "key1": "value3",
           "key2": "value2"
         }
-      });
-      if(response){
-        console.log("Response - ",response.data);
-        return res.send(response)
-      }else{
-        return res.send("No response!");
-      }
+      }).then((data)=>{console.log("Response - ",data); return res.send(data)}).catch((err)=>{
+        console.log("Error Occurred while creating order");
+        return res.send("Error Occurred")
+      })
+     
         
     } catch (error) {
       console.log("Error Occurred",error)
@@ -70,7 +68,7 @@ router.put("/getData",async(req,res)=>{
     const isExistedUser = await Auth.findById({_id : userId});
     console.log("Triggered getData route")
     console.log("Current User ID- ",userId);
-    console.log("Current Order ID 0 ",orderId);
+    console.log("Current Order ID  ",orderId);
     if(isExistedUser._id){
       console.log("user id - ",userId);
       console.log("Payment Id - ",paymentId);
