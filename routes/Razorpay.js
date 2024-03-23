@@ -63,7 +63,7 @@ router.get("/personDetails",async(req,res)=>{
 })
 router.put("/getData",async(req,res)=>{
   try {
-    const {paymentId,userEmail,userMobile,userName,userId,successData,orderId} = req.body;
+    const {paymentId,userEmail,userMobile,userName,userId,successData,orderId,razorPayOrderId} = req.body;
     // const isExistedUser = AuthController.getCurrentPersonDetails(userId);
     const isExistedUser = await Auth.findById({_id : userId});
     console.log("Triggered getData route")
@@ -72,6 +72,7 @@ router.put("/getData",async(req,res)=>{
     if(isExistedUser._id){
       console.log("user id - ",userId);
       console.log("Payment Id - ",paymentId);
+      console.log("razorPay Id - ",razorPayOrderId);
       console.log("successData - ",successData);
       // console.log("order Id",currentOrderId);
       console.log("payment Id",successData.razorpay_payment_id);
@@ -82,7 +83,7 @@ router.put("/getData",async(req,res)=>{
       hmac.update(payload);
       const generated_signature = hmac.digest('hex');
       
-      // console.log('Generated Signature:',generated_signature);
+      console.log('Generated Signature:',generated_signature);
   
       if(generated_signature === successData.razorpay_signature){
         isExistedUser.isAuthenticated = true;
