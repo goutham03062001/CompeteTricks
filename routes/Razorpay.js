@@ -75,7 +75,7 @@ router.put("/getData",async(req,res)=>{
       console.log("successData - ",successData);
       // console.log("order Id",currentOrderId);
       console.log("payment Id",successData.razorpay_payment_id);
-      const payload = orderId + '|' + successData.razorpay_payment_id;
+      const payload = successData.razorpay_order_id + '|' + successData.razorpay_payment_id;
       // const generated_signature = hmac_sha256(currentOrderId + "|" + successData.razorpay_payment_id, process.env.RAZORPAY_SECRET);
   
       const hmac = crypto.createHmac('sha256', process.env.RAZORPAY_SECRET);
