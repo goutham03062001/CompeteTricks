@@ -3,7 +3,7 @@ const AuthModel = require("../models/Auth");
 const bcrypt = require("bcryptjs");
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-
+const Authorized = require('../models/AuthorizedUsers')
 
 // Example usage
 
@@ -192,6 +192,18 @@ const AuthController = {
         } catch (error) {
             const responseString = "No Account Found!";
             return responseString;
+            
+        }
+    },
+    getSubscriptionDetails : async(req,res)=>{
+        try {
+            const isSubscribed = await Authorized.findOne({userId:req.params.userId});
+            if(isSubscribed){
+                console.log("You are subscribed person");
+                return res.send(isSubscribed)
+            }
+        } catch (error) {
+            return res.send("Error Occurred !"+error.message)
             
         }
     }
