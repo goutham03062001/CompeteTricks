@@ -27,9 +27,9 @@ const generateUniqueToken = (userId) => {
 };
 router.post("/makeNewPayment",async(req,res)=>{
     try {
-      const thresholdAmount = 10
+      // const thresholdAmount = 10
       instance.orders.create({
-        "amount": 1000,
+        "amount": 100000, //1K
         "currency": "INR",
         "receipt": req.body.receiptName,
         "partial_payment": false,
