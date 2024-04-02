@@ -12,7 +12,7 @@ const AuthorizedUsers = require("../models/AuthorizedUsers")
 router.post("/create-payment-intent",async(req,res)=>{
     try {
         const paymentIntent = await stripe.paymentIntents.create({
-            amount : Math.round(10*100),
+            amount : Math.round(1*100),
              currency:"INR",
             //  automatic_payment_methods: {
             //     enabled: true,
