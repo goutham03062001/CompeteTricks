@@ -2,7 +2,9 @@ const excelJs = require("exceljs");
 const QuizModel = require("../models/QuizModel");
 const ModelPaper = require("../models/ModelPapers");
 const QuizAttempt = require("../models/QuizAttempt");
-const Auth = require("../models/Auth")
+const Auth = require("../models/Auth");
+const EnglishPedagogyModel = require("../models/EnglishPedagogy");
+const GeneralEnglishModel = require("../models/GeneralEnglish");
 const QuizController = {
 
     upload:async(req,res)=>{
@@ -327,6 +329,160 @@ const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate
       } catch (error) {
         console.error(error);
         return res.status(500).send("Error occurred: " + error.message);
+      }
+    },
+    uploadEnglishPedagogy : async(req,res)=>{
+      try {
+        var QuestionsArr = [];
+        const fileBuffer = req.file.buffer;
+
+        const workbook = new excelJs.Workbook();
+        const worksheet = await workbook.xlsx.load(fileBuffer);
+
+        const rows = worksheet.getWorksheet(1).getSheetValues();
+        const headers = rows[1];
+
+        for (let i = 2; i < rows.length; i++) {
+            const currentRow = rows[i];
+            if (currentRow) {
+                const quizFormData = {};
+                for (let j = 0; j < headers.length; j++) {
+                    quizFormData[headers[j]] = currentRow[j];
+                }
+                
+                uploadStudentDetailsFunction1(quizFormData,QuestionsArr);
+                console.log("Inside main method ",QuestionsArr[1]);
+            } else {
+                console.log('Encountered an undefined row at index:', i);
+            }
+        }
+
+        console.log("new Model Paper", QuestionsArr);
+        const newQuiz = new EnglishPedagogyModel({ Questions: QuestionsArr, ModelPaperType: req.params.ModelPaperType });
+        await newQuiz.save();
+
+        return res.send("English Pedagogy Paper Uploaded Successfully!");
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ error: 'An error occurred while uploading Model Paper' });
+    }
+
+    function uploadStudentDetailsFunction1(quizFormData,QuestionsArr) {
+        const {
+            QuestionName,
+            Option1,
+            Option2,
+            Option3,
+            Option4,
+            Year,
+            Answer
+        } = quizFormData;
+
+        const Options = {
+            option1: Option1,
+            option2: Option2,
+            option3: Option3,
+            option4: Option4
+        };
+        
+        const questionName = {
+            richText: [
+                {  text: String(QuestionName) }
+            ]
+        };
+        
+        const Questions = {
+            questionName: questionName,
+            options: Options,
+            answer: Answer,
+            year : Year
+        };
+        
+        QuestionsArr.push(Questions);
+        
+        console.log("Qn - ",Questions.questionName)
+        console.log("QuestionsArr , ",QuestionsArr);
+    }
+    },
+    uploadGeneraEnglish : async(req,res)=>{
+      try {
+        var QuestionsArr = [];
+        const fileBuffer = req.file.buffer;
+
+        const workbook = new excelJs.Workbook();
+        const worksheet = await workbook.xlsx.load(fileBuffer);
+
+        const rows = worksheet.getWorksheet(1).getSheetValues();
+        const headers = rows[1];
+
+        for (let i = 2; i < rows.length; i++) {
+            const currentRow = rows[i];
+            if (currentRow) {
+                const quizFormData = {};
+                for (let j = 0; j < headers.length; j++) {
+                    quizFormData[headers[j]] = currentRow[j];
+                }
+                
+                uploadStudentDetailsFunction1(quizFormData,QuestionsArr);
+                console.log("Inside main method ",QuestionsArr[1]);
+            } else {
+                console.log('Encountered an undefined row at index:', i);
+            }
+        }
+
+        console.log("new General English Paper", QuestionsArr);
+        const newQuiz = new GeneralEnglishModel({ Questions: QuestionsArr, ModelPaperType: req.params.ModelPaperType });
+        await newQuiz.save();
+
+        return res.send("English Pedagogy Paper Uploaded Successfully!");
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ error: 'An error occurred while uploading Model Paper' });
+    }
+
+    function uploadStudentDetailsFunction1(quizFormData,QuestionsArr) {
+        const {
+            QuestionName,
+            Option1,
+            Option2,
+            Option3,
+            Option4,
+            Year,
+            Answer
+        } = quizFormData;
+
+        const Options = {
+            option1: Option1,
+            option2: Option2,
+            option3: Option3,
+            option4: Option4
+        };
+        
+        const questionName = {
+            richText: [
+                {  text: String(QuestionName) }
+            ]
+        };
+        
+        const Questions = {
+            questionName: questionName,
+            options: Options,
+            answer: Answer,
+            year : Year
+        };
+        
+        QuestionsArr.push(Questions);
+        
+        console.log("Qn - ",Questions.questionName)
+        console.log("QuestionsArr , ",QuestionsArr);
+    }
+    },
+    getAllEnglishPedagogyPapers : async(req,res)=>{
+      try {
+        const allPapers = await EnglishPedagogyModel.find();
+        return res.send(allPapers)
+      } catch (error) {
+        return res.send("Error Occurred")
       }
     }
 }

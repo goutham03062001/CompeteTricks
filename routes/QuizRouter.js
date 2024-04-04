@@ -5,7 +5,9 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 const QuizController = require("../controllers/QuizController")
 router.post("/uploadQuiz",upload.single("file"),QuizController.upload);
-router.post("/modelPaper/uploadModelPaper/:ModelPaperType",upload.single("file"),QuizController.uploadModelPapers)
+router.post("/modelPaper/uploadModelPaper/:ModelPaperType",upload.single("file"),QuizController.uploadModelPapers);
+router.post("/uploadEnglishPedagogy",upload.single("file"),QuizController.uploadEnglishPedagogy);
+router.post("/uploadGeneralEnglish",upload.single("file"),QuizController.uploadGeneraEnglish);
 router.put("/updateAttempts/user/:userId/quiz/:quizId",QuizController.updateQuizAttempt);
 router.get("/getQuizDetails",QuizController.getAllQuiz);
 router.get("/modelPaper/getAllModelPapers/:ModelPaperType",QuizController.getAllModelPapersByType);
@@ -15,4 +17,5 @@ router.put("/modelPaper/updateModelPaper/id/:ModelPaperId/user/:userId",QuizCont
 router.get("/getQuizDetails/:quizId",QuizController.getQuizDetailsById);
 router.delete("/removeQuiz/:quizId",QuizController.removeQuizById);
 router.delete("/modelPaper/removeModelPaper/:ModelPaperId",QuizController.deleteModelPaperById);
+router.get("/getAllEnglishPedagogy",QuizController.getAllEnglishPedagogyPapers)
 module.exports = router;    
