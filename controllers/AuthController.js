@@ -4,7 +4,8 @@ const bcrypt = require("bcryptjs");
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const Authorized = require('../models/AuthorizedUsers')
-
+const Unauth = require('../models/UnauthorizedUsers');
+const UnauthorizedUsers = require("../models/UnauthorizedUsers");
 // Example usage
 
 
@@ -202,6 +203,34 @@ const AuthController = {
                 console.log("You are subscribed person");
                 return res.send(isSubscribed)
             }
+        } catch (error) {
+            return res.send("Error Occurred !"+error.message)
+            
+        }
+    },
+    getAllMobileDetails: async(req,res)=>{
+        try {
+            
+            const deleteUsers = await AuthModel.deleteMany({isAuthenticated:false});
+            // try {
+            //     // const unAuthUsers = await UnauthorizedUsers.insertMany(deleteUsers) ;
+            // // return res.json({message : "Un authorized users data",unAuthUsers});
+            
+
+            // } catch (error) {
+            //     return res.send("Error Occurred while inserting data of unAuth Users")
+            // }
+
+            return res.json({message : "Un Auth users deleted",deleteUsers});
+        } catch (error) {
+            return res.send("Error Occurred !"+error.message)
+            
+        }
+    },
+    getAllUsers : async(req,res)=>{
+        try {
+            const data = await AuthModel.find();
+            return res.send(data);
         } catch (error) {
             return res.send("Error Occurred !"+error.message)
             
