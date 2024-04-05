@@ -44,9 +44,14 @@ const AuthController = {
                     }
                     if(success){
                         return res.json(isExisted);
-                        
+                        // if(isExisted.deviceInfo.modelName === deviceInfo.modelName  && isExisted.deviceInfo.brand === deviceInfo.brand && isExisted.deviceInfo.deviceType === deviceInfo.deviceType){
+                               
+                        // }else{
+                        //     return res.send("Permission Denied");
+                        // }
+            // return res.json(isExisted)
                     }else{
-                        return res.send("Either mobile number or password is wrong!");
+                        return res.send("Either mobile number or password is wrong");
                     }
 
                 })
