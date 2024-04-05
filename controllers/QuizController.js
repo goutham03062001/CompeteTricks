@@ -493,6 +493,45 @@ const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate
         return res.send("Error Occurred")
         
       }
+    },
+    getAllGeneralEnglishPapers : async(req,res)=>{
+      try {
+        const allPapers = await GeneralEnglishModel.find();
+        return res.send(allPapers)
+      } catch (error) {
+        return res.send("Error Occurred")
+        
+      }
+    },
+    getGeneralEnglishPaperById:async(req,res)=>{
+      try {
+        const currentPaper = await GeneralEnglishModel.findOne({_id : req.params.id});
+        return res.send(currentPaper);
+      } catch (error) {
+        return res.send("Error Occurred")
+        
+      }
+    },
+    deleteEnglishPedagogyById : async(req,res)=>{
+      try {
+        const currentPaperToDelete = await EnglishPedagogyModel.findOneAndDelete({_id : req.params.id});
+        const remainingData = await EnglishPedagogyModel.find();
+        return res.send(remainingData);
+      } catch (error) {
+        return res.send("Error Occurred")
+        
+      }
+    },
+    deleteGeneralEnglishPaperById : async(req,res)=>{
+      try {
+        console.log("Deleting general english paper by id")
+        const currentPaperToBeDeleted = await GeneralEnglishModel.findOneAndDelete({_id : req.params.id});
+        const remainingData = await GeneralEnglishModel.find();
+        return res.send(remainingData);
+      } catch (error) {
+        return res.send("Error Occurred")
+        
+      }
     }
 }
 
