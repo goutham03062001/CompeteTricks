@@ -17,5 +17,6 @@ router.put("/modelPaper/updateModelPaper/id/:ModelPaperId/user/:userId",QuizCont
 router.get("/getQuizDetails/:quizId",QuizController.getQuizDetailsById);
 router.delete("/removeQuiz/:quizId",QuizController.removeQuizById);
 router.delete("/modelPaper/removeModelPaper/:ModelPaperId",QuizController.deleteModelPaperById);
-router.get("/getAllEnglishPedagogy",QuizController.getAllEnglishPedagogyPapers)
+router.get("/getAllEnglishPedagogy",QuizController.getAllEnglishPedagogyPapers);
+router.get("/getEnglishPedagogyPaperById/:id",QuizController.getEnglishPedagogyPaperById)
 module.exports = router;    

@@ -25,7 +25,7 @@ const QuizSchema = mongoose.Schema({
     ModelPaperType : {
         type : String
     },
-    createdAt : { type : Date, default : Date.now().toLocaleString}
+    createdAt : { type : Date, default : Date.now()}
 });
 
 module.exports = EnglishPedagogy = mongoose.model("English Pedagogy",QuizSchema)

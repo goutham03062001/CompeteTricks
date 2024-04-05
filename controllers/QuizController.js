@@ -484,6 +484,15 @@ const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate
       } catch (error) {
         return res.send("Error Occurred")
       }
+    },
+    getEnglishPedagogyPaperById: async(req,res)=>{
+      try {
+        const currentPaper = await EnglishPedagogyModel.findOne({_id : req.params.id});
+        return res.send(currentPaper)
+      } catch (error) {
+        return res.send("Error Occurred")
+        
+      }
     }
 }
 
