@@ -182,17 +182,30 @@ const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate
     },
     getQuizDetailsById: async(req,res)=>{
       try {
-        const quizById = await QuizModel.findById({_id : req.params.quizId});
-        if(quizById){
-          return res.send(quizById);
-          // return res.send("removed successfully");
-          return
-        }else{
-          return res.send("No quiz found with provided id");
+        const quizById = await QuizModel.findById({ _id: req.params.quizId });
+        if (quizById) {
+            let allIndexes = await QuizModel.find();
+            let currentIndex = -1;
+            
+            for (let index = 0; index < allIndexes.length; index++) {
+                if (allIndexes[index]._id.toString() === quizById._id.toString()) {
+                    currentIndex = index;
+                    break;
+                }
+            }
+            
+            if (currentIndex === -1) {
+                return res.send("Quiz Id Is Not existed");
+            } else {
+                return res.json({ message: currentIndex, data: quizById });
+            }
+        } else {
+            return res.send("No quiz found with provided id");
         }
-      } catch (error) {
-        return res.send("Error Occurred!"+error.message)
-      }
+    } catch (error) {
+        return res.send("Error Occurred!" + error.message);
+    }
+    
     },
     removeQuizById: async(req,res)=>{
       try {
