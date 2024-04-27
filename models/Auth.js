@@ -19,8 +19,11 @@ const AuthSchema = mongoose.Schema({
                 quizId : {type : String},
                 userId:{type : String},
                 scoresArr : [],
-                count : {type : String}
-            }
+                count : {type : String},
+                timeStamps:[],
+                quizIndex:{type : Number}
+
+            },
         },
     ],
     modelPaperAttempts:[
