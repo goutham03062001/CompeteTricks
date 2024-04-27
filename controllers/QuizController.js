@@ -244,7 +244,12 @@ const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate
         }else{
           let scoresArr = [];
           scoresArr.push(score);
-          const quiz = {quizId:quizId,userId : userId,count:1,scoresArr:scoresArr};
+          let timeStamps = [];
+          const time = Date.now().toLocaleString();
+          const allQuizzes = await QuizModel.find();
+          // let currentQuizIndex = await QuizModel.findOneById({_id : quizId});
+          let currentIdx = allQuizzes.indexOf(quizId);
+          const quiz = {quizId:quizId,userId : userId,count:1,scoresArr:scoresArr,timeStamps:timeStamps,quizIndex: currentIdx};
           currentUser.quizAttempts.push({quiz:quiz});
         }
         await currentUser.save();
