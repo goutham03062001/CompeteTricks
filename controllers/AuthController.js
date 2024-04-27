@@ -235,6 +235,21 @@ const AuthController = {
             return res.send("Error Occurred !"+error.message)
             
         }
+    },
+    getRecentAttempts: async(req,res)=>{
+        try {
+            const currentUser = await AuthModel.findOne({_id : req.params.userId});
+            if(currentUser){
+                //find the quizAttempts length
+                const quizAttemptsLength = currentUser.quizAttempts.length;
+                const recentAttempts = currentUser.quizAttempts.slice(quizAttemptsLength-5, quizAttemptsLength);
+                return res.send(recentAttempts);
+            }
+            else{return res.send("No user found!")}
+        } catch (error) {
+            return res.send("Error Occurred !"+error.message)
+            
+        }
     }
 }
 
