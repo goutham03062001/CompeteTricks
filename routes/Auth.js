@@ -10,5 +10,6 @@ router.delete("/deleteAccount",AuthController.removeAccount);
 router.get("/currentPerson/:id",AuthController.getAccountDetails);
 router.get("/getInfo/:userId",AuthController.getSubscriptionDetails);
 router.get("/allMobileNumber",AuthController.getAllMobileDetails);
-router.get("/allUsers",AuthController.getAllUsers)
+router.get("/allUsers",AuthController.getAllUsers);
+router.get("/getRecentAttempts/:userId",AuthController.getRecentAttempts)
 module.exports = router;    
