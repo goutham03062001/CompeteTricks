@@ -249,6 +249,7 @@ const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate
           const allQuizzes = await QuizModel.find();
           // let currentQuizIndex = await QuizModel.findOneById({_id : quizId});
           let currentIdx = allQuizzes.indexOf(quizId);
+          timeStamps.push(time);
           const quiz = {quizId:quizId,userId : userId,count:1,scoresArr:scoresArr,timeStamps:timeStamps,quizIndex: currentIdx};
           currentUser.quizAttempts.push({quiz:quiz});
         }
