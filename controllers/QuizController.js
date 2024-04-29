@@ -245,7 +245,7 @@ const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate
           quizObj.quiz.scoresArr.push(score);
           quizObj.quiz.count = quizObj.quiz.scoresArr.length;
           let timeStamps = [];
-          const time = Date.now().toLocaleString();
+          const time = Date.now();
           quizObj.quiz.timeStamps.push(time);
           quizObj.quiz.quizIndex = currentIdx;
           // return res.send(quizObj)
@@ -253,7 +253,7 @@ const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate
           let scoresArr = [];
           scoresArr.push(score);
           let timeStamps = [];
-          const time = Date.now().toLocaleString();
+          const time = Date.now();
           const allQuizzes = await QuizModel.find();
           // let currentQuizIndex = await QuizModel.findOneById({_id : quizId});
           let currentIdx = allQuizzes.indexOf(quizId);
