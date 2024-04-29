@@ -240,14 +240,15 @@ const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate
           const quizObj = currentUser.quizAttempts.find(attempt=>attempt.quiz.quizId === quizId);
           const allQuizzes = await QuizModel.find();
 
-          let currentIdx = allQuizzes.indexOf(quizId);
+                  const currIndex = allQuizzes.findIndex(quiz => quiz._id.equals(quizId));
+
 
           quizObj.quiz.scoresArr.push(score);
           quizObj.quiz.count = quizObj.quiz.scoresArr.length;
           let timeStamps = [];
           const time = new Date.now().toLocaleString();
           quizObj.quiz.timeStamps.push(time);
-          quizObj.quiz.quizIndex = currentIdx;
+          quizObj.quiz.quizIndex = currIndex;
           // return res.send(quizObj)
         }else{
           let scoresArr = [];
@@ -256,9 +257,10 @@ const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate
           const time = new Date.now().toLocaleString();
           const allQuizzes = await QuizModel.find();
           // let currentQuizIndex = await QuizModel.findOneById({_id : quizId});
-          let currentIdx = allQuizzes.indexOf(quizId);
+                  const currIndex = allQuizzes.findIndex(quiz => quiz._id.equals(quizId));
+
           timeStamps.push(time);
-          const quiz = {quizId:quizId,userId : userId,count:1,scoresArr:scoresArr,timeStamps:timeStamps,quizIndex: currentIdx};
+          const quiz = {quizId:quizId,userId : userId,count:1,scoresArr:scoresArr,timeStamps:timeStamps,quizIndex: currIndex};
           currentUser.quizAttempts.push({quiz:quiz});
         }
         await currentUser.save();

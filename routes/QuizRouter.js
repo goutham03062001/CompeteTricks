@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require("multer");
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
+const QuizModel = require("../models/QuizModel")
 const QuizController = require("../controllers/QuizController")
 router.post("/uploadQuiz",upload.single("file"),QuizController.upload);
 router.post("/modelPaper/uploadModelPaper/:ModelPaperType",upload.single("file"),QuizController.uploadModelPapers);
@@ -22,5 +23,17 @@ router.get("/getEnglishPedagogyPaperById/:id",QuizController.getEnglishPedagogyP
 router.get("/getAllGeneralEnglishPapers",QuizController.getAllGeneralEnglishPapers);
 router.get("/getGeneralEnglishPaperById/:id",QuizController.getGeneralEnglishPaperById);
 router.delete("/deleteEnglishPedagogyById/:id",QuizController.deleteEnglishPedagogyById);
-router.delete("/deleteGeneralEnglishPaperById/:id",QuizController.deleteGeneralEnglishPaperById)
+router.delete("/deleteGeneralEnglishPaperById/:id",QuizController.deleteGeneralEnglishPaperById);
+router.get('/check/:quizId',async(req,res)=>{
+    try {
+        const allQuizzes = await QuizModel.find();
+        // let currentQuizIndex = await QuizModel.findOneById({_id : quizId});
+        const quizId = req.params.quizId;
+        const currIndex = allQuizzes.findIndex(quiz => quiz._id.equals(quizId));
+
+        return res.json({foundIndex : "index - "+currIndex,data : allQuizzes,quizId:"Your current id - "+quizId});
+    } catch (error) {
+        return res.send("Error Occurred - "+error.message)
+    }
+})
 module.exports = router;    
