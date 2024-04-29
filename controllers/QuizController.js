@@ -238,8 +238,16 @@ const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate
         console.log("isReattempted - ",isReattempted);
         if(isReattempted){
           const quizObj = currentUser.quizAttempts.find(attempt=>attempt.quiz.quizId === quizId);
+          const allQuizzes = await QuizModel.find();
+
+          let currentIdx = allQuizzes.indexOf(quizId);
+
           quizObj.quiz.scoresArr.push(score);
           quizObj.quiz.count = quizObj.quiz.scoresArr.length;
+          let timeStamps = [];
+          const time = Date.now().toLocaleString();
+          quizObj.quiz.timeStamps.push(time);
+          quizObj.quiz.quizIndex = currentIdx;
           // return res.send(quizObj)
         }else{
           let scoresArr = [];
