@@ -24,6 +24,7 @@ router.get("/getAllGeneralEnglishPapers",QuizController.getAllGeneralEnglishPape
 router.get("/getGeneralEnglishPaperById/:id",QuizController.getGeneralEnglishPaperById);
 router.delete("/deleteEnglishPedagogyById/:id",QuizController.deleteEnglishPedagogyById);
 router.delete("/deleteGeneralEnglishPaperById/:id",QuizController.deleteGeneralEnglishPaperById);
+router.get("/getEnglishPedagogyIndex/:quizId",QuizController.getEnglishPedagogyPaperIndex);
 router.get('/check/:quizId',async(req,res)=>{
     try {
         const allQuizzes = await QuizModel.find();
