@@ -548,7 +548,24 @@ const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate
         return res.send("Error Occurred")
         
       }
+    },
+    getEnglishPedagogyPaperIndex: async (req, res) => {
+      const { quizId } = req.params;
+      try {
+        const results = await EnglishPedagogyModel.find();
+    
+        const index = results.findIndex(doc => doc._id.toString() === quizId);
+    
+        if (index !== -1) {
+          res.send({ index });
+        } else {
+          res.send({ message: 'Quiz ID not found' });
+        }
+      } catch (error) {
+        res.status(500).send('Error occurred: ' + error.message);
+      }
     }
+    
 }
 
 module.exports = QuizController
