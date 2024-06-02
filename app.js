@@ -29,19 +29,19 @@ app.use("/api/appVersion",AppVersion);
 app.post("/api/sendEmail",async(req,res)=>{
     try {
         const transporter = nodemailer.createTransport({
-            host: "smtp-relay.sendinblue.com",
+            host: "smtp.hostinger.com",
             port: 587,
             auth: {
-                user: "75e7af001@smtp-brevo.com",
-                pass: "wKUMaAQP5rBd8zxj",
+                user: "react.dev12@techpri.me",
+                pass: "Goutham.Tech@123",
             },
         });
         
         const mailOptions = {
-            from: '75e7af001@smtp-brevo.com',
+            from: 'react.dev12@techpri.me',
             to: 'gouthamkumarpolapally@gmail.com',
-            subject: `Your subject`,
-            text: `Your text content`
+            subject: 'Test Email',
+            text: 'Hello Goutham'
         };
 
 
