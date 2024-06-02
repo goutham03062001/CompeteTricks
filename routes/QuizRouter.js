@@ -17,7 +17,9 @@ router.get("/modelPaper/getAllModelPapers/id/:ModelPaperId",QuizController.getMo
 router.put("/modelPaper/updateModelPaper/id/:ModelPaperId/user/:userId",QuizController.updateModelPaperAttempt);
 router.get("/getQuizDetails/:quizId",QuizController.getQuizDetailsById);
 router.delete("/removeQuiz/:quizId",QuizController.removeQuizById);
+
 router.delete("/modelPaper/removeModelPaper/:ModelPaperId",QuizController.deleteModelPaperById);
+
 router.get("/getAllEnglishPedagogy",QuizController.getAllEnglishPedagogyPapers);
 router.get("/getEnglishPedagogyPaperById/:id",QuizController.getEnglishPedagogyPaperById);
 router.get("/getAllGeneralEnglishPapers",QuizController.getAllGeneralEnglishPapers);
@@ -25,6 +27,8 @@ router.get("/getGeneralEnglishPaperById/:id",QuizController.getGeneralEnglishPap
 router.delete("/deleteEnglishPedagogyById/:id",QuizController.deleteEnglishPedagogyById);
 router.delete("/deleteGeneralEnglishPaperById/:id",QuizController.deleteGeneralEnglishPaperById);
 router.get("/getEnglishPedagogyIndex/:quizId",QuizController.getEnglishPedagogyPaperIndex);
+
+
 router.get('/check/:quizId',async(req,res)=>{
     try {
         const allQuizzes = await QuizModel.find();
