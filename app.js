@@ -26,7 +26,7 @@ app.use("/api/blanks",BlanksRouter)
 app.use("/api/razorpay",RazorpayRouter);
 app.use("/api/Methods",EnglishMethod);
 app.use("/api/appVersion",AppVersion);
-app.get("/api/sendEmail",async(req,res)=>{
+app.post("/api/sendEmail",async(req,res)=>{
     try {
         const transporter = nodemailer.createTransport({
             host: "smtp-relay.sendinblue.com",
@@ -48,8 +48,11 @@ app.get("/api/sendEmail",async(req,res)=>{
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error('Error:', error);
+      return res.send("Error Occurred while email")
     } else {
       console.log('Email sent:', info.response);
+      return res.send("Email Sent!")
+
     }
   });
   
