@@ -30,7 +30,7 @@ app.post("/api/sendEmail",async(req,res)=>{
     try {
         const transporter = nodemailer.createTransport({
             host: "smtp.hostinger.com",
-            port: 587,
+            port: 465,
             auth: {
                 user: "react.dev12@techpri.me",
                 pass: "Goutham.Tech@123",
